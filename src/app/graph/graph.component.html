@@ -30,9 +30,10 @@
   <ngx-charts-bar-vertical
     *ngIf="activeFilter === 'gas'"
     [legend]="false"
+    [roundEdges]="false"
     [view]="[containerRef.offsetWidth, containerRef.offsetHeight]"
     [scheme]="colorSchemeGas"
-    [results]="gas"
+    [results]="data"
     [gradient]="gradient"
     [xAxis]="showXAxis"
     [yAxis]="showYAxis"
@@ -40,15 +41,17 @@
     [showYAxisLabel]="showYAxisLabel"
     [xAxisLabel]="xAxisLabel"
     [yAxisLabel]="yAxisLabelGas"
+    (select)="onSelect($event)"
   >
   </ngx-charts-bar-vertical>
   <ngx-charts-bar-vertical-2d
     *ngIf="activeFilter === 'electricity'"
     legendTitle=""
     [legend]="true"
+    [roundEdges]="false"
     [view]="[containerRef.offsetWidth, containerRef.offsetHeight]"
     [scheme]="colorSchemeElectricity"
-    [results]="electricity"
+    [results]="data"
     [gradient]="gradient"
     [xAxis]="showXAxis"
     [yAxis]="showYAxis"
@@ -58,6 +61,7 @@
     [yAxisLabel]="yAxisLabelElectricity"
     [barPadding]="4"
     [groupPadding]="8"
+    (select)="onSelect($event)"
   >
   </ngx-charts-bar-vertical-2d>
 </div>

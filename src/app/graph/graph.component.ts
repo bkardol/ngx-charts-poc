@@ -10,15 +10,14 @@ import { electricity, gas } from './data';
   styleUrls: ['./graph.component.scss'],
 })
 export class GraphComponent {
-
   activeFilter = 'electricity';
+  hiddenSeries: string[] = [];
 
   euroIcon = faEuroSign;
   electricityIcon = faPlug;
   gasIcon = faFire;
 
-  gas?: any[];
-  electricity?: any[];
+  data?: any[];
 
   showXAxis = true;
   showYAxis = true;
@@ -38,11 +37,44 @@ export class GraphComponent {
   } as any;
 
   constructor() {
-    Object.assign(this, { gas });
-    Object.assign(this, { electricity });
+    this.setData();
   }
 
   setActive(filter: string) {
     this.activeFilter = filter;
+    this.hiddenSeries = [];
+    this.setData();
+  }
+
+  onSelect(event: any) {
+    if (typeof event === 'string') {
+      // legend item clicked
+      this.hiddenSeries.includes(event)
+        ? this.hiddenSeries = this.hiddenSeries.filter((s) => s !== event)
+        : this.hiddenSeries.push(event);
+      this.setData();
+    }
+  }
+
+  private isElectricity() {
+    return this.activeFilter === 'electricity';
+  }
+
+  private filterHidden(series: { name: string; value: number }[]) {
+    return series.map((s) =>
+      this.hiddenSeries.includes(s.name)
+        ? Object.assign({}, s, { value: 0 })
+        : s
+    );
+  }
+
+  private setData() {
+    const data = this.isElectricity()
+      ? electricity.map((e) =>
+          Object.assign({}, e, { series: this.filterHidden(e.series) })
+        )
+      : this.filterHidden(gas);
+
+    Object.assign(this, { data });
   }
 }
