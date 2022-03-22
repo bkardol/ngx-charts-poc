@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { BarVertical2DComponent, BarVerticalComponent } from '@swimlane/ngx-charts';
+import { MockComponent } from 'ng-mocks';
 
 import { GraphComponent } from './graph.component';
 
@@ -8,9 +11,13 @@ describe('GraphComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GraphComponent ]
-    })
-    .compileComponents();
+      declarations: [
+        GraphComponent,
+        MockComponent(FaIconComponent),
+        MockComponent(BarVerticalComponent),
+        MockComponent(BarVertical2DComponent),
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
